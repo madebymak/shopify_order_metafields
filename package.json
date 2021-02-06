@@ -1,0 +1,23 @@
+{
+  "name": "shopify_order_metafields",
+  "version": "1.0.0",
+  "description": "A microservice API that updates a Shopify order on creation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madebymak/shopify_order_metafields.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/madebymak/shopify_order_metafields/issues"
+  },
+  "homepage": "https://github.com/madebymak/shopify_order_metafields#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "request": "^2.88.2"
+  }
+}
