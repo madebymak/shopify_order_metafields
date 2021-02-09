@@ -12,6 +12,7 @@ export const updateOrder = (req, res) => {
 
 	const order = req.body;
 	const orderId = order.id;
+	const customerId = order.customer.id
 
 	const testCustomerId = 4518786891927;
 	const testOrderId = 3182383136919;
@@ -23,7 +24,7 @@ export const updateOrder = (req, res) => {
 		"metafield": {
 			"namespace": "referral_email",
 			"key": "email",
-			"value": 'jon@email.com',
+			"value": order.email,
 			"value_type": "string"
 		}
 	}
