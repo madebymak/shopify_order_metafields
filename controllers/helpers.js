@@ -19,7 +19,7 @@ export const updateOrder = (req, res) => {
 	const customerUrl = `${accessUrl}/customers/${testCustomerId}/metafields.json`;
 	const orderUrl = `${accessUrl}/orders/${testOrderId}/metafields.json`;
 
-	const testMetafield = {
+	const data = {
 		"metafield": {
 			"namespace": "referral_email",
 			"key": "email",
@@ -28,31 +28,38 @@ export const updateOrder = (req, res) => {
 		}
 	}
 
-	// add to order metafields
-	axios.get(orderUrl)
-		.then((order) => {
-			console.log(order.data);
-			// addMetafield(orderUrl, testMetafield)
+	// add to referal metafield to order
+	addMetafield(orderUrl, data)
+		.then((res) => {
+			res.status == 201 && getMetafields(customerUrl)
+				.then((res) => {
+					const customerMetafieldList = res.data.metafields;
+					let referralExist = false;
+
+					// check if referal email metafield already exists
+					referralExist = customerMetafieldList.find(metafield => metafield.namespace == 'referral_email');
+					// add referal email to customer metafields
+					// return referralExist || addMetafield(customerUrl, data)
+					return referralExist ? console.log('skipped') : addMetafield(customerUrl, data);
+				});
 		});
-
-
-	// check if metafield exists
-	// axios.get(customerUrl)
-	// 	.then((res) => {
-	// 		const customerMetafieldList = res.data.metafields;
-	// 		let referralExist = false;
-
-	// 		referralExist = customerMetafieldList.find(metafield => metafield.namespace == 'referral_email');
-	// 		// add referral metafield
-	// 		// return referralExist || addMetafield(customerUrl, testMetafield);
-	// 		return referralExist ? console.log('skipped') : addMetafield(customerUrl, testMetafield);
-	// 	})
-	// 	.catch(error => console.log({ error }));
-
 }
 
-const addMetafield = (url, data) => {
-	axios.post(url, data)
-		.then(() => console.log('added'))
-		.catch(error => console.log({error}))
+const getMetafields = async (url) => {
+	try {
+		const resp = await axios.get(url);
+		return resp
+	} catch (error) {
+		console.log({error});
+	}
+}
+
+const addMetafield = async (url, data) => {
+	try {
+		const resp = await axios.post(url, data);
+		return resp
+
+	} catch (error) {
+		console.log({error});
+	}
 }
