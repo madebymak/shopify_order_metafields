@@ -14,18 +14,11 @@ export const updateOrder = (req, res) => {
 	const orderId = order.id;
 
 	const testCustomerId = 4518786891927;
+	const testOrderId = 3182383136919;
 
 	const customerUrl = `${accessUrl}/customers/${testCustomerId}/metafields.json`;
-	const orderUrl = `${accessUrl}/orders/${order.id}/metafields.json`;
-	// get order from webhook
+	const orderUrl = `${accessUrl}/orders/${testOrderId}/metafields.json`;
 
-	// get customer id from order
-	// const customerId = order.customer.id;
-
-	// add metafield to customer
-	// /admin/orders/#{id}/metafields.json
-
-	// /admin/customers/#{id}/metafields.json
 	const testMetafield = {
 		"metafield": {
 			"namespace": "referral_email",
@@ -35,27 +28,30 @@ export const updateOrder = (req, res) => {
 		}
 	}
 
+	// add to order metafields
+	axios.get(orderUrl)
+		.then((order) => {
+			console.log(order.data);
+			// addMetafield(orderUrl, testMetafield)
+		});
+
+
 	// check if metafield exists
-	axios.get(customerUrl)
-		.then((res) => {
-			const customerMetafieldList = res.data.metafields;
-			// console.log({customerMetafieldList});
+	// axios.get(customerUrl)
+	// 	.then((res) => {
+	// 		const customerMetafieldList = res.data.metafields;
+	// 		let referralExist = false;
 
-			let referralExist = false;
-			// console.log({ customerMetafieldList });
-			referralExist = customerMetafieldList.find(metafield => metafield.namespace == 'referral_email');
-			// add referral metafield
-			// referralExist || addReferralEmail(customerUrl, testMetafield);
-			return referralExist ? console.log('skipped') : addReferralEmail(customerUrl, testMetafield);
-		})
-		.catch(error => console.log({ error }));
-
-	///admin/customers/#{id}/metafields.json
-	///admin/orders/#{id}/metafields.json
+	// 		referralExist = customerMetafieldList.find(metafield => metafield.namespace == 'referral_email');
+	// 		// add referral metafield
+	// 		// return referralExist || addMetafield(customerUrl, testMetafield);
+	// 		return referralExist ? console.log('skipped') : addMetafield(customerUrl, testMetafield);
+	// 	})
+	// 	.catch(error => console.log({ error }));
 
 }
 
-const addReferralEmail = (url, data) => {
+const addMetafield = (url, data) => {
 	axios.post(url, data)
 		.then(() => console.log('added'))
 		.catch(error => console.log({error}))
