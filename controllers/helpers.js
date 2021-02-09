@@ -8,12 +8,13 @@ if (process.env.NODE_ENV !== 'production') {
 const accessUrl = process.env.shopify_secret;
 
 export const updateOrder = (req, res) => {
-	res.status(200).send('POST');
+	res.json();
 
 	const order = req.body;
 	const orderId = order.id;
 	const customerId = order.customer.id
 
+	// test ids
 	const testCustomerId = 4518786891927;
 	const testOrderId = 3182383136919;
 

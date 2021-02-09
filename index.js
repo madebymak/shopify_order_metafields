@@ -24,7 +24,7 @@ const PORT = 3000;
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-	res.status(200).send('Hello World');
+	res.json();
 });
 
 app.post('/', updateOrder);
